@@ -1,4 +1,5 @@
 public class NBody{
+    public static final double G=6.67e-11;
     public static double readRadius(String fileName){
         In in=new In(fileName);
         int numberOfPlanets=in.readInt();
