@@ -104,6 +104,8 @@ public class IntList {
      */
     public static IntList catenate(IntList A, IntList B) {
         //TODO:  fill in method
+        if (A==null)
+            return B;
         IntList record=new IntList(A.first,null);
         IntList ptr=record;
         while(true)
