@@ -116,6 +116,9 @@ public class IntList {
             record.rest=new IntList(A.first,null);
             record=record.rest;
         }
+        if(B==null){
+            return ptr;
+        }
         record.rest=new IntList(B.first,null);
         record=record.rest;
         while(true)
