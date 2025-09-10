@@ -43,7 +43,19 @@ public class IntList {
             L = L.rest;
         }
     }
-
+    public static IntList reverse(IntList L){
+        if(L ==null) return null;
+        IntList R=new IntList(L.first,null);
+        IntList temp=L;
+        while (true){
+            temp=temp.rest;
+            if(temp==null) break;
+            IntList temp2=new IntList(temp.first,null);
+            temp2.rest=R;
+            R=temp2;
+        }
+        return R;
+    }
     /**
      * Returns a list equal to L with all elements squared. Non-destructive.
      */
