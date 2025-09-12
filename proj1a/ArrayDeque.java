@@ -26,7 +26,9 @@ public class ArrayDeque<Type> {
         if(size==items.length){
             resize();
         }
-        items[head]=item;
+        head=head-1;
+        head=head%items.length;
+        items[head-1]=item;
         size+=1;
     }
     public void addLast(Type item){
