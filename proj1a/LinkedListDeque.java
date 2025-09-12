@@ -1,9 +1,9 @@
-public class LinkedListDeque<Type>{
-    public class Node{
-        public Type item;
+public class LinkedListDeque<T>{
+    private class Node{
+        public T item;
         public Node next;
         public Node last;
-        public Node(Type i,Node n,Node l){
+        public Node(T i,Node n,Node l){
             item=i;
             next=n;
             last=l;
@@ -15,10 +15,10 @@ public class LinkedListDeque<Type>{
         sentinel=new Node(null,null,null);
         size=0;
     }
-    public void addFirst(Type item){
+    public void addFirst(T item){
         size+=1;
         Node a=new Node(item,null,null);
-        if(sentinel.next==null){
+        if(size==1){
             a.last=a;
             a.next=a;
             sentinel.next=a;
@@ -33,10 +33,10 @@ public class LinkedListDeque<Type>{
             sentinel.next=a;
         }
     }
-    public void addLast(Type item){
+    public void addLast(T item){
         size+=1;
         Node a=new Node(item,null,null);
-        if(sentinel.next==null){
+        if(size==1){
             a.last=a;
             a.next=a;
             sentinel.next=a;
@@ -74,7 +74,7 @@ public class LinkedListDeque<Type>{
             System.out.print(current.item+" ");
         }
     }
-    public Type removeFirst(){
+    public T removeFirst(){
         if(size==0){
             return null;
         }
@@ -99,7 +99,7 @@ public class LinkedListDeque<Type>{
             }
         }
     }
-    public Type removeLast(){
+    public T removeLast(){
         if(size==0){
             return null;
         }
@@ -123,7 +123,7 @@ public class LinkedListDeque<Type>{
             }
         }
     }
-    public Type get(int index){
+    public T get(int index){
         int ind=0;
         Node current=sentinel.next;
         while(true)
@@ -136,7 +136,7 @@ public class LinkedListDeque<Type>{
             //System.out.print(current.item+" ");
         }
     }
-    public Type getRecursive(int index){
+    public T getRecursive(int index){
         return get(index);
         //I am too lazy and I don't want to spend more time thinking
         //how to use recursive to write this.
