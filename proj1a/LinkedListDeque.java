@@ -29,7 +29,7 @@ public class LinkedListDeque<T>{
             a.next=first_element;
             a.last=last_element;
             first_element.last=a;
-            last_element.last=a;
+            last_element.next=a;
             sentinel.next=a;
         }
     }
