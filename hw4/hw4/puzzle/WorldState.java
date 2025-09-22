@@ -12,3 +12,4 @@ public interface WorldState {
         return estimatedDistanceToGoal() == 0;
     }
 }
+//implicit含蓄的
