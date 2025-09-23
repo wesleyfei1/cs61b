@@ -28,6 +28,7 @@ public class TestBSTMap {
         BSTMap<String, Integer> b = new BSTMap<String, Integer>();
         for (int i = 0; i < 455; i++) {
             b.put("hi" + i, 1 + i);
+            //System.out.println(i);
             //make sure put is working via containsKey and get
             assertTrue(null != b.get("hi" + i));
             assertTrue(b.get("hi" + i).equals(1 + i));

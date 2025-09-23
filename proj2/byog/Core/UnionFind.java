@@ -1,4 +1,4 @@
-package byog.test;
+package byog.Core;
 
 public class UnionFind {
     private int parent[];

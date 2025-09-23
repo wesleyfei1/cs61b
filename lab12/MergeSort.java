@@ -35,7 +35,15 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Queue<Item>>
             makeSingleItemQueues(Queue<Item> items) {
         // Your code here!
-        return null;
+        Queue<Queue<Item>> q=new Queue<>();
+        Queue<Item> q_new=items;
+        while(!q_new.isEmpty()){
+            Item temp=q_new.dequeue();
+            Queue<Item> current=new Queue<>();
+            current.enqueue(temp);
+            q.enqueue(current);
+        }
+        return q;
     }
 
     /**
@@ -54,13 +62,48 @@ public class MergeSort {
     private static <Item extends Comparable> Queue<Item> mergeSortedQueues(
             Queue<Item> q1, Queue<Item> q2) {
         // Your code here!
-        return null;
+        Queue<Item> save=new Queue<>();
+        while(!q1.isEmpty() || !q2.isEmpty()){
+            Item temp=getMin(q1,q2);
+            save.enqueue(temp);
+        }
+        return save;
     }
 
     /** Returns a Queue that contains the given items sorted from least to greatest. */
     public static <Item extends Comparable> Queue<Item> mergeSort(
             Queue<Item> items) {
         // Your code here!
-        return items;
+        Queue<Queue<Item>> q=makeSingleItemQueues(items);
+        while(q.size()>1){
+            Queue<Item> q1=q.dequeue();
+            Queue<Item> q2=q.dequeue();
+            Queue<Item> temp=mergeSortedQueues(q1,q2);
+            //System.out.println(1);
+            q.enqueue(temp);
+        }
+        if (q.isEmpty()) {
+            return new Queue<>();
+        } else {
+            return q.dequeue();
+        }
+    }
+    public static void print_queue(Queue<String> q){
+        Queue<String> q_new=q;
+        while(!q_new.isEmpty()){
+            String now=q_new.dequeue();
+            System.out.println(now);
+        }
+        System.out.println("112341234123");
+    }
+    public static void main(String[] args){
+        Queue<String> students=new Queue<String>();
+        students.enqueue("Alice");
+        students.enqueue("Carol");
+        students.enqueue("Bob");
+        students.enqueue("Oak");
+        students.enqueue("Harden");
+        students=MergeSort.mergeSort(students);
+        print_queue(students);
     }
 }

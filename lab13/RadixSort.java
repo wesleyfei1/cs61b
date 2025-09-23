@@ -17,18 +17,58 @@ public class RadixSort {
      */
     public static String[] sort(String[] asciis) {
         // TODO: Implement LSD Sort
-        return null;
+        int max=Integer.MIN_VALUE;
+        for(String s:asciis){
+            if(s.length()>max)
+                max=s.length();
+        }
+        for(int i=max-1;i>=0;i--){
+            sortHelperLSD(asciis,i);
+            /**for(String s:asciis){
+                System.out.print(s+" ");
+            }
+            System.out.println();*/
+        }
+        return asciis;
     }
 
     /**
      * LSD helper method that performs a destructive counting sort the array of
      * Strings based off characters at a specific index.
-     * @param asciis Input array of Strings
+     * param asciis Input array of Strings
      * @param index The position to sort the Strings on.
      */
+    private static char char_extract(String s,int index){
+        if(s.length()-1<index)
+            return s.charAt(s.length()-1);
+        else{
+            return s.charAt(index);
+        }
+    }
     private static void sortHelperLSD(String[] asciis, int index) {
         // Optional LSD helper method for required LSD radix sort
-        return;
+        int[] num=new int[300];
+        for(int i=0;i<num.length;i++)
+            num[i]=0;
+        for(String s:asciis){
+            num[char_extract(s,index)]++;
+        }
+        int[] start=new int[300];
+        int pos=0;
+        for(int i=0;i<num.length;i++){
+            start[i]=pos;
+            pos+=num[i];
+        }
+        String[] newAsciis=new String[asciis.length];
+        for(int i=0;i<asciis.length;i++){
+            String item=asciis[i];
+            int place=start[char_extract(item,index)];
+            start[char_extract(item,index)]++;
+            newAsciis[place]=item;
+        }
+        for(int i=0;i<newAsciis.length;i++){
+            asciis[i]=newAsciis[i];
+        }
     }
 
     /**
@@ -44,5 +84,23 @@ public class RadixSort {
     private static void sortHelperMSD(String[] asciis, int start, int end, int index) {
         // Optional MSD helper method for optional MSD radix sort
         return;
+    }
+    public static void main(String[] args){
+        String[] asciis = {
+                "z3aB",
+                "apple",
+                "XyZ",
+                "hello123",
+                "CAT",
+                "b2",
+                "banana",
+                "MANGO",
+                "qwerty",
+                "A1B2C3"
+        };
+        sort(asciis);
+        for(String s:asciis){
+            System.out.println(s);
+        }
     }
 }

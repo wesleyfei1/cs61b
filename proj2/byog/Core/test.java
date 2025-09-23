@@ -1,35 +1,36 @@
-package byog.test;
+package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.Random;
 //import edu.princeton.cs.introcs.StdDraw;
 
 
 public class test {
-    private static final int WIDTH = 80;
-    private static final int HEIGHT = 50;
+    private int WIDTH = 80;
+    private int HEIGHT = 30;
 
-    private static final long SEED = 287;
-    private static final Random RANDOM = new Random(SEED);
+    private Random RANDOM ;
     private static int xx[],yy[],hh[],ww[];
     private static int number;
-    public static class Edge{
+    public test(int seed){
+        RANDOM=new Random(seed);
+    }
+    public class Edge{
         int x;int y;int distance;
         public Edge(int xx,int yy,int ddistance){
             this.x=xx;this.y=yy;this.distance=ddistance;
         }
     }
-    public static void fillRegtangle(int x,int y,int w,int h,TETile[][] tile){
+    public void fillRegtangle(int x,int y,int w,int h,TETile[][] tile){
         for(int i=x;i<x+w;i++){
             for(int j=y;j<y+h;j++){
                 tile[i][j]=Tileset.GRASS;
             }
         }
     }
-    public static int distance(int x,int y)
+    public int distance(int x,int y)
     {
         int distx=0,disty=0;
         if(xx[x]>xx[y]) distx=xx[x]-(ww[y]+xx[y]);
@@ -41,7 +42,7 @@ public class test {
         int dist=Math.max(distx,0)+Math.max(disty,0);
         return dist;
     }
-    public static int distance(int x, int y, int num) {
+    public int distance(int x, int y, int num) {
         int left   = xx[num];
         int right  = xx[num] + ww[num]-1;
         int bottom = yy[num];
@@ -93,21 +94,21 @@ public class test {
         }
     }*/
     /** 辅助：把 v 限制到 [lo, hi] */
-    private static int clamp(int v, int lo, int hi) {
+    private int clamp(int v, int lo, int hi) {
         if (lo > hi) return lo; // 防守性：若宽高为0导致 lo>hi，直接返回 lo（不会越界）
         if (v < lo) return lo;
         if (v > hi) return hi;
         return v;
     }
 
-    private static boolean inBounds(int x, int y, TETile[][] tiles) {
+    private boolean inBounds(int x, int y, TETile[][] tiles) {
         return x >= 0 && x < tiles.length && y >= 0 && y < tiles[0].length;
     }
 
     /**
      * 更稳健的 connect：从房间 a 的“靠近 b 的点”连到房间 b 的“靠近 a 的点”。
      */
-    public static void connect(int a, int b, TETile[][] tiles) {
+    public void connect(int a, int b, TETile[][] tiles) {
         // 房间 A 边界
         int leftA   = xx[a];
         int rightA  = xx[a] + ww[a] - 1;
@@ -174,19 +175,21 @@ public class test {
             }
         }
     }
-    public static void genRectangle(TETile[][] tile){
-        int num=40;
+    public void genRectangle(TETile[][] tile){
+        int num=30;
         int i=0;
         xx=new int[num];
         yy=new int[num];
         hh=new int[num];
         ww=new int[num];
         number=num;
+        System.out.println(2);
         while(i<num){
             int x=RANDOM.nextInt(WIDTH);
             int y=RANDOM.nextInt(HEIGHT);
             int w=2+RANDOM.nextInt(6);
             int h=2+RANDOM.nextInt(5);
+            //System.out.println(i);
             if((x+w)<WIDTH&&(y+h)<HEIGHT) {
 
                 xx[i]=x;
@@ -195,7 +198,7 @@ public class test {
                 hh[i]=h;
                 int flag=0;
                 for(int j=0;j<i;j++)
-                    if(distance(i,j)<=3)
+                    if(distance(i,j)<=2)
                         flag=1;
                 if(flag==1)
                     continue;
@@ -205,7 +208,7 @@ public class test {
             }
         }
     }
-    public static void addBoundary(TETile[][] tiles){
+    public void addBoundary(TETile[][] tiles){
         int[] xadd={1,-1,0,0};
         int[] yadd={0,0,1,-1};
         for(int x=0;x<WIDTH;x++){
@@ -225,7 +228,7 @@ public class test {
             }
         }
     }
-    public static void MST(TETile[][] tiles){
+    public void MST(TETile[][] tiles){
         Edge[] edges=new Edge[number*number];
         int k=0;
         for(int i=0;i<number;i++)
@@ -262,14 +265,52 @@ public class test {
             }
         }
     }
-    public static void fillWithNullTiles(TETile[][] tiles){
+    public void fillWithNullTiles(TETile[][] tiles){
         for(int i=0;i<WIDTH;i++){
             for(int j=0;j<HEIGHT;j++){
                 tiles[i][j]=Tileset.NOTHING;
             }
         }
     }
-    public static void main(String[] args) {
+    public void createMap(TETile[][] tiles){
+        System.out.println(1);
+        fillWithNullTiles(tiles);
+        System.out.println(1);
+        genRectangle(tiles);
+        System.out.println(1);
+        MST(tiles);
+        addBoundary(tiles);
+        int[] recordx=new int[1000];
+        int[] recordy=new int[1000];
+        int s=0;
+        for(int i=0;i<WIDTH;i++)
+        {
+            for(int j=0;j<HEIGHT;j++)
+            {
+                if(tiles[i][j]==Tileset.WALL)
+                {
+                    s++;
+                    recordx[s]=i;
+                    recordy[s]=j;
+                }
+            }
+        }
+        int u=RANDOM.nextInt(s);
+        System.out.println(u);
+        tiles[recordx[u]][recordy[u]]=Tileset.FLOWER;
+        for(int i=0;i<HEIGHT;i++)
+        {
+            for(int j=0;j<WIDTH;j++)
+            {
+                if(tiles[j][i]==Tileset.GRASS)
+                {
+                    tiles[j][i]=Tileset.PLAYER;
+                    return ;
+                }
+            }
+        }
+    }
+    /**public static void main(String[] args) {
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
         TETile[][] Tiles = new TETile[WIDTH][HEIGHT];
@@ -279,5 +320,5 @@ public class test {
         addBoundary(Tiles);
         //connect(1,8,Tiles);
         ter.renderFrame(Tiles);
-    }
+    }*/
 }
