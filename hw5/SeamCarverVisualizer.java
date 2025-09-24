@@ -37,7 +37,8 @@ public class SeamCarverVisualizer {
 
     public void visualizeHorizontalCarve(SeamCarver sc, int N) {
         for (int i = 0; i < N; i++) {
-            int[] minSeam = sc.findHorizontalSeam();
+            int[] minSeam = sc.findVerticalSeam();
+            //System.out.println(sc.height());
             Picture p = sc.picture();            
             paintHorizontalSeam(p, minSeam);
             show(p);
@@ -49,7 +50,7 @@ public class SeamCarverVisualizer {
 
     public void visualizeVerticalCarve(SeamCarver sc, int N) {
         for (int i = 0; i < N; i++) {
-            int[] minSeam = sc.findVerticalSeam();
+            int[] minSeam = sc.findHorizontalSeam();
             Picture p = sc.picture();
             paintVerticalSeam(p, minSeam);
             show(p);
@@ -103,17 +104,14 @@ public class SeamCarverVisualizer {
     }
 
     public static void main(String[] args) {
-        if (args.length <= 1) {
-            System.out.println("Usage: SeamCarver [filename] [numPixels] [horizontal | yN]");
-            return;
-        }
 
-        Picture samplePicture = new Picture(args[0]);
+
+        Picture samplePicture = new Picture("images/HJoceanSmall.png");
         SeamCarver sc = new SeamCarver(samplePicture);
-        int N = Integer.parseInt(args[1]);
+        int N = Integer.parseInt("50");
 
         SeamCarverVisualizer scv = new SeamCarverVisualizer();
-        if (args[2].equals("y")) {
+        if ("y".equals("y")) {
             scv.visualizeHorizontalCarve(sc, N);
         } else {
             scv.visualizeVerticalCarve(sc, N);
